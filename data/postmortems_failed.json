@@ -1,0 +1,164 @@
+[
+  {
+    "title": "Allegro incident",
+    "url": "https://allegro.tech/2018/08/postmortem-why-allegro-went-down.html",
+    "description": "E-commerce site went down after a sudden traffic spike caused by a marketing campaign. The outage was caused by a configuration error in cluster resource management which prevented more service instances from starting even though hardware resources were available.",
+    "company": "Allegro"
+  },
+  {
+    "title": "Enom incident",
+    "url": "https://enomstatus.com/incidents/03q064h6rb7x",
+    "description": "On January 15, 2022, at 9:00 AM ET, Tucows\u2019 engineering team began planned maintenance work to migrate the Enom platform to a new cloud infrastructure. Due to the complexity of the cutover, the team encountered many issues resulting in continuous delays. The maintenance window was extended multiple times to address issues related to data replication, network routing, and DNS resolution issues impacting website accessibility and email delivery.",
+    "company": "Enom"
+  },
+  {
+    "title": "Heroku incident",
+    "url": "https://status.heroku.com/incidents/1091",
+    "description": "An automated remote configuration change did not propagate fully. Web dynos could not be started.",
+    "company": "Heroku"
+  },
+  {
+    "title": "PagerDuty incident",
+    "url": "https://status.pagerduty.com/incidents/vbp7ht2647l8",
+    "description": "On December 15th, 2021 at 00:17 UTC, we deployed a DNS configuration change in PagerDuty\u2019s infrastructure that impacted our container orchestration cluster. The change contained a defect, that we did not detect in our testing environments, which immediately caused all services running in the container orchestration cluster to be unable to resolve DNS.",
+    "company": "PagerDuty"
+  },
+  {
+    "title": "rust-lang incident",
+    "url": "https://blog.rust-lang.org/inside-rust/2023/02/08/dns-outage-portmortem.html",
+    "description": "On Wednesday, 2023-01-25 at 09:15 UTC, we deployed changes to the production infrastructure for crates.io. During the deployment, the DNS record for static.crates.io failed to resolve for an estimated time of 10-15 minutes. It was due to the fact that both certificates and DNS records were re-created during the downtime.",
+    "company": "rust-lang"
+  },
+  {
+    "title": "rust-lang incident",
+    "url": "https://blog.rust-lang.org/inside-rust/2023/07/21/crates-io-postmortem.html",
+    "description": "On 2023-07-20 between 12:17 and 12:30 UTC all crate downloads from crates.io were broken due to a deployment that contained a bug in the download URL generation. During this time we had an average of 4.71K requests per second to crates.io, resulting in about 3.7M failed requests, including the retry attempts from cargo.",
+    "company": "rust-lang"
+  },
+  {
+    "title": "Heroku incident",
+    "url": "https://status.heroku.com/incidents/2558",
+    "description": "At 15:05 UTC on June 8, 2023, a database error occurred where a foreign key used a smaller data type than the primary key that it referenced. This error caused an overflow when the primary key exceeded the allowable value, resulting in an inability to create new authorizations within Heroku. This error also prevented customers from creating new deployments. The oncall operations then triggered the Heroku API full outage.",
+    "company": "Heroku"
+  },
+  {
+    "title": "Allegro incident",
+    "url": "https://allegro.tech/2015/01/allegro-cast-post-mortem.html",
+    "description": "The [Allegro](https://web.archive.org/web/20211204232004/https://allegro.pl/) platform suffered a failure of a subsystem responsible for asynchronous distributed task processing. The problem affected many areas, e.g. features such as purchasing numerous offers via cart and bulk offer editing (including price list editing) did not work at all. Moreover, it partially failed to send daily newsletter with new offers. Also some parts of internal administration panel were affected.",
+    "company": "Allegro"
+  },
+  {
+    "title": "AT&T incident",
+    "url": "https://users.csc.calpoly.edu/~jdalbey/SWE/Papers/att_collapse.html",
+    "description": "A bad line of C code introduced a race hazard which in due course collapsed the phone network. After a planned outage, the quickfire resumption messages triggered the race,  causing more reboots which retriggered the problem. \"The problem repeated iteratively throughout the 114 switches in the network, blocking over 50 million calls in the nine hours it took to stabilize the system.\" From 1990.",
+    "company": "AT&T"
+  },
+  {
+    "title": "Bintray incident",
+    "url": "https://web.archive.org/web/20210421222929/https://status.bintray.com/incidents/w4dfr0rpznkt",
+    "description": "In July 2017 several malicious Maven packages were included in JCenter with an impersonation attack. Those packages lived in JCenter for over a year and supposedly affected several Android apps that resulted in having malware code injected by those dependencies from JCenter.",
+    "company": "Bintray"
+  },
+  {
+    "title": "Bitly incident",
+    "url": "https://blog.bitly.com/post/85260908544/more-detail",
+    "description": "Hosted source code repo contained credentials granting access to bitly backups, including hashed passwords.",
+    "company": "Bitly"
+  },
+  {
+    "title": "Etsy incident",
+    "url": "https://blog.etsy.com/news/2012/demystifying-site-outages/",
+    "description": "First, a deploy that was supposed to be a small bugfix deploy also caused live databases to get upgraded on running production machines. To make sure that this didn't cause any corruption, Etsy stopped serving traffic to run integrity checks. Second, an overflow in ids (signed 32-bit ints) caused some database operations to fail. Etsy didn't trust that this wouldn't result in data corruption and took down the site while the upgrade got pushed.",
+    "company": "Etsy"
+  },
+  {
+    "title": "GitHub incident",
+    "url": "https://githubengineering.com/ddos-incident-report/",
+    "description": "On February 28th 2018, GitHub experienced a DDoS attack, hitting the website with 1.35Tbps of traffic.",
+    "company": "GitHub"
+  },
+  {
+    "title": "Heroku incident",
+    "url": "https://status.heroku.com/incidents/642?postmortem",
+    "description": "Having a system that requires scheduled manual updates resulted in an error which caused US customers to be unable to scale, stop or restart dynos, or route HTTP traffic, and also prevented all customers from being able to deploy.",
+    "company": "Heroku"
+  },
+  {
+    "title": "Heroku incident",
+    "url": "https://status.heroku.com/incidents/1042",
+    "description": "An upstream `apt` update broke pinned packages which lead to customers experiencing write permission failures to `/dev`.",
+    "company": "Heroku"
+  },
+  {
+    "title": "Heroku incident",
+    "url": "https://status.heroku.com/incidents/2451",
+    "description": "A change to the core application that manages the underlying infrastructure for the Common Runtime included a dependency upgrade that caused a timing lock issue that greatly reduced the throughput of our task workers. This dependency change, coupled with a failure to appropriately scale up due to increased workload scheduling, caused the application's work queue to build up. Contributing to the issue, the team was not alerted immediately that new router instances were not being initialized correctly on startup largely because of incorrectly configured alerts. These router instances were serving live traffic already but were shown to be in the wrong boot state, and they were deleted via our normal processes due to failing readiness checks. The deletion caused a degradation of the associated runtime cluster while the autoscaling group was creating new instances. This reduced pool of router instances caused requests to fail as more requests were coming in faster than the limited number of routers could handle. This is when customers started noticing issues with the service.",
+    "company": "Heroku"
+  },
+  {
+    "title": "Joyent incident",
+    "url": "https://web.archive.org/web/20220528044329/https://www.joyent.com/blog/manta-postmortem-7-27-2015",
+    "description": "Operations on Manta were blocked because a lock couldn't be obtained on their PostgreSQL metadata servers. This was due to a combination of PostgreSQL's transaction wraparound maintenance taking a lock on something, and a Joyent query that unnecessarily tried to take a global lock.",
+    "company": "Joyent"
+  },
+  {
+    "title": "Netflix incident",
+    "url": "https://netflixtechblog.com/post-mortem-of-october-22-2012-aws-degradation-efcee3ab40d5",
+    "description": "An EBS outage in one availability zone was mitigated by migrating to other availability zones.",
+    "company": "Netflix"
+  },
+  {
+    "title": "PagerDuty incident",
+    "url": "https://status.pagerduty.com/incidents/70m30bh7qfmx",
+    "description": "A third party service for sending SMS and making voice calls experienced an outage due to AWS having issues in a region.",
+    "company": "PagerDuty"
+  },
+  {
+    "title": "Parity incident",
+    "url": "https://paritytech.io/the-multi-sig-hack-a-postmortem/",
+    "description": "$30 million of cryptocurrency value was diverted (stolen) with another $150 million diverted to a safe place (rescued), after a 4000-line software change containing a security bug was mistakenly labeled as a UI change, inadequately reviewed, deployed, and used by various unsuspecting third parties. See also [this analysis](https://web.archive.org/web/20221226010429/https://hackingdistributed.com/2017/07/22/deep-dive-parity-bug/).",
+    "company": "Parity"
+  },
+  {
+    "title": "Salesforce incident",
+    "url": "https://help.salesforce.com/apex/HTViewSolution?urlname=Root-Cause-Message-for-Disruption-of-Service-on-NA14-May-2016&language=en_US",
+    "description": "Initial disruption due to power failure in one datacenter led to cascading failures with a database cluster and file discrepancies resulting in cross data center failover issues.",
+    "company": "Salesforce"
+  },
+  {
+    "title": "Salesforce incident",
+    "url": "https://help.salesforce.com/s/articleView?id=000396429&type=1",
+    "description": "On September 20, 2023, a service disruption affected a subset of customers across multiple services beginning at 14:48 Coordinated Universal Time (UTC). As a result, some customers were unable to login and access their services. A policy change executed as a part of our standard security controls review and update cycle to be the trigger of this incident. This change inadvertently blocked access to resources beyond its intended scope.",
+    "company": "Salesforce"
+  },
+  {
+    "title": "Sentry incident",
+    "url": "https://blog.sentry.io/2015/07/23/transaction-id-wraparound-in-postgres",
+    "description": "Transaction ID Wraparound in Postgres caused Sentry to go down for most of a working day.",
+    "company": "Sentry"
+  },
+  {
+    "title": "Skyliner incident",
+    "url": "https://web.archive.org/web/20251230063242/https://blog.skyliner.io/post-mortem-outages-on-1-19-17-and-1-23-17-3f65cc6f693e",
+    "description": "A memory leak in a third party library lead to Skyliner being unavailable on two occasions.",
+    "company": "Skyliner"
+  },
+  {
+    "title": "Strava incident",
+    "url": "https://engineering.strava.com/the-upload-outage-of-july-29-2014/",
+    "description": "Hit the signed integer limit on a primary key, causing uploads to fail.",
+    "company": "Strava"
+  },
+  {
+    "title": "Stripe incident",
+    "url": "https://support.stripe.com/questions/outage-postmortem-2015-10-08-utc",
+    "description": "Manual operations are regularly executed on production databases. A manual operation was done incorrectly (missing dependency), causing the Stripe API to go down for 90 minutes.",
+    "company": "Stripe"
+  },
+  {
+    "title": "trivago incident",
+    "url": "https://tech.trivago.com/2021/10/05/postmortem-removing-all-users-from-github.com/trivago/",
+    "description": "Due to a human error, all engineers lost access to the central source code management platform (GitHub organization). An Azure Active Directory Security group controls the access to the GitHub organization. This group was removed during the execution of a manual and repetitive task.",
+    "company": "trivago"
+  }
+]
