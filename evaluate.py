@@ -10,12 +10,34 @@ from baselines import query_bm25_with_response, query_no_tool
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+# ── Hit@K metric ─────────────────────────────────────────────
+def calculate_hit_at_k(retrieved_incidents, true_company, true_category, k=3):
+    """
+    Measures whether retrieval found a relevant incident in top-k results.
+    - Company hit: same company appeared in results (exact match)
+    - Category hit: same category appeared (semantic relevance)
+    """
+    top_k = retrieved_incidents[:k]
+
+    company_hit = any(
+        m['company'].lower() == true_company.lower()
+        for m in top_k
+    )
+    category_hit = any(
+        m.get('category', '').lower() == true_category.lower()
+        for m in top_k
+    )
+
+    return {
+        "company_hit": int(company_hit),
+        "category_hit": int(category_hit)
+    }
+
 # ── Scoring rubric ───────────────────────────────────────────
 def score_response(incident, response, condition_name):
     """
     Ask GPT to score the response on 3 dimensions (1-5 each).
-    We use GPT as the judge because manual scoring 60 responses
-    is impractical, and GPT-as-judge is a standard eval technique.
+    GPT-as-judge is a standard eval technique for LLM outputs.
     """
     prompt = f"""
 You are evaluating the quality of an AI-generated incident response.
@@ -45,7 +67,7 @@ Score the response on these 3 dimensions. Return ONLY a JSON object, no explanat
 
 Scoring guide:
 - correctness  : 5=root cause matches ground truth exactly, 3=partially correct, 1=completely wrong
-- completeness : 5=covers symptoms+root cause+resolution+escalation, 3=covers some, 1=very incomplete  
+- completeness : 5=covers symptoms+root cause+resolution+escalation, 3=covers some, 1=very incomplete
 - actionability: 5=specific steps an engineer can execute immediately, 3=somewhat vague, 1=no actionable steps
 
 Return only the JSON, no markdown.
@@ -71,23 +93,21 @@ Return only the JSON, no markdown.
             "actionability_reason": "scoring failed"
         }
 
-# ── Run evaluation ───────────────────────────────────────────
+# ── Load test set ─────────────────────────────────────────────
 with open("data/test_set.json", "r") as f:
     test_set = json.load(f)
 
 print(f"Running evaluation on {len(test_set)} test incidents")
-print(f"3 conditions × 20 incidents = 60 total responses")
+print(f"3 conditions x 20 incidents = 60 total responses")
 print(f"Estimated time: ~15 minutes")
 print(f"Estimated cost: ~$0.30\n")
 
 results = []
 
+# ── Main evaluation loop ──────────────────────────────────────
 for i, incident in enumerate(test_set):
     print(f"\n[{i+1}/20] {incident['company']} — {incident.get('category','?')} / {incident.get('severity','?')}")
 
-    # Build the query from the incident's symptoms
-    # We use symptoms only — not root cause or resolution
-    # (those are the ground truth we're testing against)
     query = incident.get('symptoms', incident.get('description', ''))
     if query == 'Not specified':
         query = incident.get('description', '')
@@ -102,7 +122,7 @@ for i, incident in enumerate(test_set):
         "ground_truth_resolution": incident.get('resolution', '')[:200],
     }
 
-    # ── Condition A: RAG ──
+    # ── Condition A: RAG ─────────────────────────────────────
     print(f"  Running RAG...", end=' ')
     start = time.time()
     try:
@@ -118,14 +138,27 @@ for i, incident in enumerate(test_set):
         row['rag_actionability'] = rag_scores['actionability']
         row['rag_total'] = rag_scores['correctness'] + rag_scores['completeness'] + rag_scores['actionability']
         row['rag_time'] = rag_time
+
+        hits = calculate_hit_at_k(
+            rag_result['retrieved_incidents'],
+            incident['company'],
+            incident.get('category', '')
+        )
+        row['rag_company_hit'] = hits['company_hit']
+        row['rag_category_hit'] = hits['category_hit']
+
         print(f"✅ scores: {rag_scores['correctness']}/{rag_scores['completeness']}/{rag_scores['actionability']} time: {rag_time}s")
     except Exception as e:
         print(f"❌ {e}")
-        row.update({'rag_correctness': 0, 'rag_completeness': 0, 'rag_actionability': 0, 'rag_total': 0, 'rag_time': 0})
+        row.update({
+            'rag_correctness': 0, 'rag_completeness': 0,
+            'rag_actionability': 0, 'rag_total': 0,
+            'rag_time': 0, 'rag_company_hit': 0, 'rag_category_hit': 0
+        })
 
     time.sleep(1)
 
-    # ── Condition B: BM25 ──
+    # ── Condition B: BM25 ────────────────────────────────────
     print(f"  Running BM25...", end=' ')
     start = time.time()
     try:
@@ -141,14 +174,27 @@ for i, incident in enumerate(test_set):
         row['bm25_actionability'] = bm25_scores['actionability']
         row['bm25_total'] = bm25_scores['correctness'] + bm25_scores['completeness'] + bm25_scores['actionability']
         row['bm25_time'] = bm25_time
+
+        hits = calculate_hit_at_k(
+            bm25_result['retrieved_incidents'],
+            incident['company'],
+            incident.get('category', '')
+        )
+        row['bm25_company_hit'] = hits['company_hit']
+        row['bm25_category_hit'] = hits['category_hit']
+
         print(f"✅ scores: {bm25_scores['correctness']}/{bm25_scores['completeness']}/{bm25_scores['actionability']} time: {bm25_time}s")
     except Exception as e:
         print(f"❌ {e}")
-        row.update({'bm25_correctness': 0, 'bm25_completeness': 0, 'bm25_actionability': 0, 'bm25_total': 0, 'bm25_time': 0})
+        row.update({
+            'bm25_correctness': 0, 'bm25_completeness': 0,
+            'bm25_actionability': 0, 'bm25_total': 0,
+            'bm25_time': 0, 'bm25_company_hit': 0, 'bm25_category_hit': 0
+        })
 
     time.sleep(1)
 
-    # ── Condition C: No Tool ──
+    # ── Condition C: No Tool ─────────────────────────────────
     print(f"  Running No-Tool...", end=' ')
     start = time.time()
     try:
@@ -162,21 +208,25 @@ for i, incident in enumerate(test_set):
         row['notool_actionability'] = notool_scores['actionability']
         row['notool_total'] = notool_scores['correctness'] + notool_scores['completeness'] + notool_scores['actionability']
         row['notool_time'] = notool_time
+
         print(f"✅ scores: {notool_scores['correctness']}/{notool_scores['completeness']}/{notool_scores['actionability']} time: {notool_time}s")
     except Exception as e:
         print(f"❌ {e}")
-        row.update({'notool_correctness': 0, 'notool_completeness': 0, 'notool_actionability': 0, 'notool_total': 0, 'notool_time': 0})
+        row.update({
+            'notool_correctness': 0, 'notool_completeness': 0,
+            'notool_actionability': 0, 'notool_total': 0,
+            'notool_time': 0
+        })
 
     results.append(row)
     time.sleep(2)
 
-# ── Save results ─────────────────────────────────────────────
+# ── Save results ──────────────────────────────────────────────
 os.makedirs("evaluation", exist_ok=True)
 
 with open("evaluation/results.json", "w") as f:
     json.dump(results, f, indent=2)
 
-# Save as CSV for easy analysis
 fieldnames = results[0].keys()
 with open("evaluation/results.csv", "w", newline='') as f:
     writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -208,10 +258,21 @@ nt_avg_time       = sum(r['notool_time'] for r in results) / len(results)
 
 print(f"\n{'Metric':<20} {'RAG':>8} {'BM25':>8} {'No-Tool':>8}")
 print(f"{'-'*44}")
-print(f"{'Correctness':<20} {rag_avg_correct:>8.2f} {bm25_avg_correct:>8.2f} {nt_avg_correct:>8.2f}")
-print(f"{'Completeness':<20} {rag_avg_complete:>8.2f} {bm25_avg_complete:>8.2f} {nt_avg_complete:>8.2f}")
-print(f"{'Actionability':<20} {rag_avg_action:>8.2f} {bm25_avg_action:>8.2f} {nt_avg_action:>8.2f}")
+print(f"{'Correctness /5':<20} {rag_avg_correct:>8.2f} {bm25_avg_correct:>8.2f} {nt_avg_correct:>8.2f}")
+print(f"{'Completeness /5':<20} {rag_avg_complete:>8.2f} {bm25_avg_complete:>8.2f} {nt_avg_complete:>8.2f}")
+print(f"{'Actionability /5':<20} {rag_avg_action:>8.2f} {bm25_avg_action:>8.2f} {nt_avg_action:>8.2f}")
 print(f"{'TOTAL /15':<20} {rag_avg_total:>8.2f} {bm25_avg_total:>8.2f} {nt_avg_total:>8.2f}")
 print(f"{'Avg Time (s)':<20} {rag_avg_time:>8.2f} {bm25_avg_time:>8.2f} {nt_avg_time:>8.2f}")
+
+# ── Retrieval metrics ─────────────────────────────────────────
+rag_company_hits   = sum(r.get('rag_company_hit', 0) for r in results)
+rag_category_hits  = sum(r.get('rag_category_hit', 0) for r in results)
+bm25_company_hits  = sum(r.get('bm25_company_hit', 0) for r in results)
+bm25_category_hits = sum(r.get('bm25_category_hit', 0) for r in results)
+
+print(f"\n{'Retrieval Metric':<20} {'RAG':>8} {'BM25':>8}")
+print(f"{'-'*36}")
+print(f"{'Company Hit@3':<20} {rag_company_hits:>5}/20 {bm25_company_hits:>5}/20")
+print(f"{'Category Hit@3':<20} {rag_category_hits:>5}/20 {bm25_category_hits:>5}/20")
 
 print(f"\n✅ Saved to evaluation/results.csv and evaluation/results.json")

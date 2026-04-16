@@ -1,436 +1,432 @@
-incident_id,company,category,severity,query,ground_truth_root_cause,ground_truth_resolution,rag_response,rag_retrieved,rag_top_score,rag_correctness,rag_completeness,rag_actionability,rag_total,rag_time,bm25_response,bm25_retrieved,bm25_top_score,bm25_correctness,bm25_completeness,bm25_actionability,bm25_total,bm25_time,notool_response,notool_correctness,notool_completeness,notool_actionability,notool_total,notool_time
+incident_id,company,category,severity,query,ground_truth_root_cause,ground_truth_resolution,rag_response,rag_retrieved,rag_top_score,rag_correctness,rag_completeness,rag_actionability,rag_total,rag_time,rag_company_hit,rag_category_hit,bm25_response,bm25_retrieved,bm25_top_score,bm25_correctness,bm25_completeness,bm25_actionability,bm25_total,bm25_time,bm25_company_hit,bm25_category_hit,notool_response,notool_correctness,notool_completeness,notool_actionability,notool_total,notool_time
 1,Honeycomb,deployment,critical,"Engineers observed a marginally slow, inconsistent performance burn in the ingest service, leading to a total outage where no data could be processed or accessed.","A subtle implementation bug caused by a feature flag switch that prevented writes from migrating to the correct cluster, compounded by a failure to restart hosts after the flag was toggled.","A command was written to restart the query engine’s cluster, but the database seized up before it could be executed, leading to a total system crash.","1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a failure in the data ingestion layer, potentially due to a database issue (similar to Past Incident #2) or a misconfiguration in the load balancer or service routing (similar to Past Incident #1).
+   The most probable root cause is a failure in the data ingestion layer, potentially due to a blocking operation or a crash in the underlying database (similar to Past Incident #2). This could be causing the ingest service to be unable to process or access data.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While there are similarities to past incidents, the exact cause is not yet confirmed. The symptoms could arise from either database issues or configuration problems.
+   High — The symptoms of slow and inconsistent performance leading to a total outage align closely with past incidents involving database failures and blocking operations.
 
-3. **IMMEDIATE ACTIONS (first 15 m","Amazon, Stackdriver, Discord",0.5482,2,3,4,9,11.09,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a degradation in database performance or resource contention, similar to the issues observed in Past Incident #2. The symptoms of slow and inconsistent performance suggest that the ingest service may be experiencing bottlenecks due to high load or inefficient resource usage.
-
-2. **CONFIDENCE LEVEL**  
-   Medium — While the symptoms align with database performance issues, the exact cause could also be related to configuration or networ","Amazon, CircleCI, ARPANET",16.991,1,3,4,8,8.95,"1. **LIKELY ROOT CAUSE**  
-   Resource exhaustion (e.g., CPU, memory, or I/O bottlenecks) in the ingest service, potentially due to increased load or inefficient processing.
+3. **IMM","Amazon, Stackdriver, Amazon",0.5481,3,4,4,11,9.68,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a degradation in database performance or resource contention, similar to the CircleCI incident. This could be due to a surge in data ingestion requests or inefficient queries affecting the ingest service.
 
 2. **CONFIDENCE LEVEL**  
-   High — Resource exhaustion is a common cause of performance degradation and outages in data processing services, especially under variable load conditions.
+   Medium — While the symptoms align with database performance issues, the specific cause of the slowdown in the ingest service is not confirmed and could also relate to configuration or network issues.
+
+3.","Amazon, CircleCI, ARPANET",16.991,1,3,4,8,6.91,0,0,"1. **LIKELY ROOT CAUSE**  
+   Resource exhaustion (e.g., CPU, memory, disk I/O) or a bottleneck in the data processing pipeline, possibly due to increased load or a recent code deployment.
+
+2. **CONFIDENCE LEVEL**  
+   High — Resource exhaustion is a common cause of performance degradation and outages in ingest services, especially under load.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check system metrics (CPU, memory, disk I/O) for the ingest service to identify resourc",1,3,5,9,7.52
+   1. Check system metrics (CPU, memory, disk I/O) for the ingest service to identify resource usage patter",1,3,4,8,5.34
 2,North American Electric Power System,Not specified,critical,"Power outage affecting ~50,000,000 people, rolling blackouts in Ontario.",Systemic vulnerabilities and process failures.,Not specified,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a failure in the power distribution infrastructure, potentially similar to the backup generator failure in the Amazon incident, leading to instability in power delivery.
+   The most probable root cause is a failure in the grid management system, potentially due to software bugs or hardware malfunctions that prevent proper load balancing and response to demand fluctuations.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While the current incident is due to a widespread power outage, historical data suggests that infrastructure failures can lead to similar symptoms, but the exact cause may vary.
+   Medium — While past incidents indicate software and hardware failures can lead to similar outages, the specific cause of this incident is still unclear without real-time data.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1","FirstEnergy / General Electric, Amazon, Telstra",0.5182,3,4,5,12,8.19,"1. **LIKELY ROOT CAUSE**
-   The most probable root cause is a hardware failure in the power distribution system, likely related to backup generators or power stabilization equipment, as seen in past incidents.
-
-2. **CONFIDENCE LEVEL**
-   High — This is based on the similarity to past incidents where power outages led to hardware failures affecting infrastructure stability.
-
-3. **IMMEDIATE ACTIONS (first 15 minutes)**
-   1. Confirm the current status of power supply to critical infrastructure.
-  ","FirstEnergy / General Electric, Amazon, GitHub",8.5218,3,3,4,10,5.41,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a failure in the electrical grid infrastructure, likely due to increased demand exceeding supply capacity, exacerbated by adverse weather conditions or equipment failure.
+   1. Verify t","FirstEnergy / General Electric, Indian Electricity Grid, Amazon",0.5183,3,4,5,12,5.78,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a failure in backup power systems (generators or UPS) that are unable to provide stable power during the outage, similar to the issues faced in past incidents.
 
 2. **CONFIDENCE LEVEL**  
-   High — This type of incident is common during extreme weather events or when grid management fails to balance supply and demand effectively.
+   High — This is based on the patterns observed in past incidents where power instability or failure of backup systems led to significant outages.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Confirm the scope of the outage and affecte",3,4,5,12,7.91
+   1. Verify the status of all backup generators and UPS","FirstEnergy / General Electric, Amazon, GitHub",8.5218,3,4,5,12,5.64,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a failure in the electrical grid infrastructure, likely due to an overload or failure of key transmission lines or substations, exacerbated by high demand or adverse weather conditions.
+
+2. **CONFIDENCE LEVEL**  
+   High — This type of incident is commonly associated with large-scale power outages, especially in regions with aging infrastructure or extreme weather.
+
+3. **IMMEDIATE ACTIONS (first 15 minutes)**  
+   1. Confirm the scope",3,4,5,12,6.6
 3,Heroku,deployment,critical,Filesystem corruption in running containers observed after a deploy.,An upgrade silently disabled a check meant to prevent filesystem corruption.,Not specified,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a configuration issue related to the filesystem or image source used in the deployed containers, potentially stemming from a recent change in deployment configuration.
+   The most probable root cause is a deployment-related issue that has introduced filesystem corruption in the running containers, potentially due to a bug in the configuration or image used during the deploy.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — There are similarities in past incidents involving filesystem issues after configuration changes, but the exact cause in this case is not fully clear.
+   High — This is based on the similarity to past incidents where deployments caused critical failures, particularly related to configuration changes and image sources.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the current configur","TravisCI, Gitlab, Knight Capital",0.4445,3,3,4,10,7.73,"1. **LIKELY ROOT CAUSE**  
+   1. Roll back the ","rust-lang, TravisCI, Google",0.4581,3,4,5,12,6.8,0,1,"1. **LIKELY ROOT CAUSE**  
    The most probable root cause is a configuration issue related to the filesystem used in the containers, similar to the incident where the primary was brought back up with the wrong filesystem.
 
 2. **CONFIDENCE LEVEL**  
-   High — The symptoms of filesystem corruption directly align with configuration errors observed in past incidents, particularly regarding incorrect filesystem states.
+   High — The symptoms of filesystem corruption align closely with the configuration issues observed in past incidents, particularly the first incident.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the deployment logs to","Gitlab, Amazon, NASA",13.028,3,3,4,10,6.57,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a bug in the deployment process that led to improper handling of filesystem mounts or data persistence, potentially due to a misconfiguration in container orchestration or storage drivers.
+   1. Verify the current filesystem type and confi","Gitlab, Amazon, NASA",13.028,3,3,5,11,6.17,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a bug in the deployment process that led to improper handling of filesystem mounts or data integrity checks, possibly exacerbated by a race condition or insufficient error handling during the deployment.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While filesystem corruption can arise from various issues, the correlation with a recent deploy suggests a deployment-related misconfiguration or bug is likely.
+   Medium — While filesystem corruption can arise from various issues, the correlation with a recent deploy suggests a deployment-related issue, but further investigation is needed to confirm.
 
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-  ",3,4,5,12,6.57
+3. **IMMEDIAT",3,4,5,12,4.43
 4,Kickstarter,database,critical,"Primary DB became inconsistent with all replicas, which wasn't detected until a query failed. Error message: Duplicate entry '123456-789' for key 'index_backings_on_project_id_and_sequence'.",A MySQL bug which sometimes caused 'order by' to be ignored.,"Engineers stabilized the site, minimized effects of stale replicas, communicated the issue to users, and recovered.","1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a database inconsistency due to a failed migration or a conflicting write operation that caused the primary DB to diverge from its replicas, leading to duplicate entries.
+   The most probable root cause is a failure during a write operation to the primary database, leading to inconsistencies that were not replicated correctly to the replicas. This could be due to a schema migration or a transient issue that caused a write conflict.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While the error indicates a conflict in the database, the exact cause of the inconsistency is not fully clear without further investigation.
-
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the primary DB logs for any ","GoCardless, Knight Capital, TravisCI",0.4358,3,4,4,11,7.52,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a data inconsistency issue due to a recent configuration change or a bug in the application logic that led to duplicate entries being allowed in the primary database.
+   High — This is based on the observed error message indicating a duplicate entry, which suggests that the primary DB may have processed conflicting writes that were not properly r","Github, Gitlab, GitHub",0.475,3,4,4,11,7.61,0,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a configuration issue or a data integrity problem that led to the primary database becoming inconsistent with its replicas. This inconsistency likely resulted from a recent change in the database configuration or schema that was not properly propagated to the replicas.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While the error message suggests a data integrity issue, the exact cause (e.g., configuration change, application bug) is not clear without further investigation.
-
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the primar","Google, European Space Agency, Google",9.7664,1,3,4,8,6.37,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a race condition or a failure in the replication process that allowed the primary database to accept duplicate entries before the replicas were updated, leading to inconsistencies.
+   Medium — While there is a pattern of configuration-related issues leading to cascading failures in past incidents, the specific nature of ","Google, European Space Agency, Google",9.7664,1,3,4,8,4.73,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a race condition or a failure in the replication process that led to a write operation on the primary DB that was not properly propagated to the replicas, resulting in inconsistent data across the database instances.
 
 2. **CONFIDENCE LEVEL**  
-   High — This type of issue is commonly associated with database replication lag or improper handling of unique constraints during concurrent writes.
+   High — This type of inconsistency often arises from issues related to concurrent writes or replication lag, which are common in distributed database systems.
 
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the primary database",3,4,5,12,9.71
+3. **IMMEDIATE ACTIONS (first 15",3,4,5,12,5.96
 5,ESLint,security,high,"Malicious packages were published to the npm registry, leading to potential exposure of users' .npmrc files.",An attacker compromised the npm account of an ESLint maintainer due to password reuse and lack of two-factor authentication.,"The malicious packages were unpublished from the npm registry, and npm revoked all access tokens issued before the incident.","1. **LIKELY ROOT CAUSE**  
-   Unauthorized access to user .npmrc files due to leaked credentials or tokens, similar to supply-chain attacks seen in past incidents.
+   Unauthorized access to users' .npmrc files due to malicious packages being published, potentially exploiting leaked credentials or tokens.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the pattern of past incidents involving credential leaks leading to unauthorized access.
+   High — Similar incidents indicate that unauthorized access and supply-chain attacks are common in package management systems.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. **Identify Affected Users**: Query logs to identify users who may have interacted with the malicious packages.  
-   2. **Revoke Tokens**: Im","Heroku, Homebrew, Gentoo",0.4882,1,3,4,8,6.68,"1. **LIKELY ROOT CAUSE**  
+   1. Identify and list the malicious packages published to the npm registry.  
+   2. Notify the team via incident communication","Heroku, Bintray, Homebrew",0.4882,2,4,4,10,5.98,0,1,"1. **LIKELY ROOT CAUSE**  
    The most probable root cause is unauthorized access to the npm registry, potentially through compromised credentials or exploitation of a vulnerability in the npm infrastructure.
 
 2. **CONFIDENCE LEVEL**  
-   High — This aligns with the pattern of malicious activity seen in the past incident where a vulnerable component was exploited, leading to the injection of malicious content.
+   High — This aligns with the pattern of malicious activity seen in the past incident involving the WordPress installation, where a security vulnerability was exploited to publish malicious content.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the integrity of the npm r","Xubuntu, WebKit code repository, Stackdriver",22.2047,3,4,4,11,6.57,"1. **LIKELY ROOT CAUSE**  
-   Malicious actors published compromised or malicious npm packages to the npm registry, which may have been installed by users, leading to the exposure of sensitive information such as .npmrc files.
+   1. Verify the ","Xubuntu, WebKit code repository, Stackdriver",22.2047,3,4,4,11,8.01,0,1,"1. **LIKELY ROOT CAUSE**  
+   Malicious actors published compromised packages to the npm registry, which may have contained code designed to read and exfiltrate users' .npmrc files, leading to credential exposure.
 
 2. **CONFIDENCE LEVEL**  
-   High — This type of incident has occurred previously in the npm ecosystem, where malicious packages were used to exploit user configurations.
+   High — This type of incident has occurred previously, and the npm ecosystem is known to be vulnerable to such attacks, especially when users install packages without verifying their integrity.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the list of recently published npm packag",2,3,4,9,5.9
+   1. Notify the",3,4,5,12,6.57
 6,GPS/GLONASS,deployment,critical,GPS satellites broadcasted incorrect positions for 10 hours.,A bad update caused incorrect orbital mechanics calculations.,"The bug was noticed and rolled back almost immediately, but this didn't fix the issue.","1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a misconfiguration or bug in the GPS satellite systems that caused incorrect position data to be broadcasted, similar to configuration issues seen in past incidents.
+   The most probable root cause is a failure in the GPS satellite system that resulted in the broadcasting of incorrect positional data, similar to how network configurations can lead to service disruptions.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While there is a pattern of configuration-related issues in past incidents, the specific nature of GPS satellite systems introduces unique complexities that may not be fully captured by previous examples.
+   High — The incident aligns with known issues in satellite systems affecting location-based services, and the duration of incorrect data aligns with the symptoms observed.
 
-3. **IMMEDIATE ACTIONS (fir","Cloudflare, Google, Google",0.368,3,4,4,11,5.61,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a malfunction in the GPS satellite systems, potentially due to a software bug or incorrect configuration leading to the broadcast of erroneous position data.
+3. **IMMEDIATE ACTIONS (first 15 minutes)**  
+   1. Verify the ","Cloudflare, Google, Google",0.3679,3,4,4,11,5.37,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a dependency issue related to GPS satellite signals broadcasting incorrect positions, which may have led to downstream systems relying on these signals experiencing failures or degraded performance.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While there is a clear precedent for hardware and software issues causing incorrect outputs in past incidents, the specific nature of GPS systems and their dependencies on various factors (e.g., signal interference, software bugs) makes it l","Stack Exchange, Intel, Cloudflare",6.0806,3,4,4,11,8.42,"1. **LIKELY ROOT CAUSE**  
+   Medium — While the incident aligns with dependency issues seen in past incidents, the specific nature of GPS signal errors introduces unique complexities that may not be fully captured by previous cases.
+
+3. *","Stack Exchange, Intel, Cloudflare",6.0806,3,4,4,11,5.45,0,0,"1. **LIKELY ROOT CAUSE**  
    The most probable root cause is a software or firmware bug in the GPS satellite systems that caused incorrect position data to be broadcasted.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While software bugs are common in complex systems like GPS, other factors such as hardware failure or external interference could also contribute to the issue.
+   Medium — While software bugs are common in complex systems like GPS, other factors such as hardware malfunctions or external interference could also be involved.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the incident by checking the status of GPS signals and confirming th",3,4,4,11,6.13
+   1. Confirm the incident by checking the status of GPS signals and any alerts from mon",3,4,4,11,5.15
 7,NASA,hardware,high,Five program alarms and software restarts during lunar landing.,A design flaw in the Apollo 11 rendezvous radar interface that stole approximately 13% of the computer's duty cycle.,Not specified,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a software-related issue, potentially involving priority inversion or arithmetic overflow, similar to the issues observed in past incidents.
+   The most probable root cause is a software issue related to priority inversion or a similar scheduling problem, as indicated by the multiple software restarts during a critical phase (lunar landing).
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While there are similarities to past incidents, the exact nature of the alarms and restarts during lunar landing is not fully clear, requiring further investigation.
+   High — This is based on the similarity to the first past incident, which involved system resets due to a priority inversion problem in the operating system.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check system logs for error messages or","NASA, European Space Agency, NASA",0.4846,3,4,5,12,9.2,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a priority inversion issue in the operating system or task scheduler, similar to the problem observed in the NASA incident during the Mars landing.
+   1. Check system logs for any erro","NASA, European Space Agency, NASA",0.4846,3,4,5,12,5.57,1,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a software bug or resource contention issue during the lunar landing, similar to the priority inversion problem observed in the VxWorks OS during the Mars landing incident.
 
 2. **CONFIDENCE LEVEL**  
-   High — The symptoms of software restarts and alarms during a critical operation (lunar landing) align closely with the priority inversion problem seen in the past incident.
+   High — The symptoms of program alarms and software restarts during a critical operation (lunar landing) align closely with the issues seen in the NASA incident, which involved system resets due to OS-level scheduling problems.
 
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check system logs for any error me","NASA, Amazon, Platform.sh",8.3171,3,3,4,10,7.9,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a software bug or race condition triggered by the specific conditions of the lunar landing, such as high computational load, timing issues, or unexpected sensor inputs.
+3. **IM","NASA, Amazon, Platform.sh",8.3171,3,3,4,10,6.26,1,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a software bug or race condition triggered by the specific conditions during the lunar landing, such as high computational load or unexpected sensor inputs.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While software bugs are common in complex systems, without historical data or logs, it's difficult to ascertain the exact cause.
+   Medium — While software issues are common in complex systems, without historical data or logs, it’s difficult to pinpoint the exact cause.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the system logs for error messages or warn",3,4,5,12,6.54
+   1. Acknowledge the alarms and notify the team of the incident.",3,3,4,10,5.31
 8,TravisCI,configuration,critical,Build jobs stopped running due to the deletion of stable base VM images.,An automated cleanup service deleted stable VM images because they were not included in the internal image catalog due to a hard-coded limit on the number of image names queried.,Not specified,"1. **LIKELY ROOT CAUSE**  
-   Deletion of stable base VM images, possibly due to a misconfiguration or automated cleanup process that removed necessary images for build jobs.
+   The most probable root cause is the deletion of stable base VM images, which directly impacts the ability to run build jobs.
 
 2. **CONFIDENCE LEVEL**  
-   High — The incident directly correlates with the failure of build jobs, similar to past incidents where configuration changes or deletions led to service disruptions.
+   High — The incident is directly related to the availability of VM images, which aligns with the symptoms observed.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the current state of the VM images in the repository.  
-   2. Check ","TravisCI, Buildkite, TravisCI",0.4833,3,4,5,12,6.38,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a misconfiguration or unintended deletion of critical VM images, similar to the logical deletion of ELB state data in the past incidents.
+   1. Verify the current status of the VM images in the repository.  
+   2. Check for any recent changes or deletions in the image repository.  
+   3. At","TravisCI, TravisCI, Buildkite",0.4833,3,4,5,12,4.69,1,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a configuration issue related to the deletion of stable base VM images, which may have been caused by an automated maintenance or cleanup process that was misconfigured.
 
 2. **CONFIDENCE LEVEL**  
-   High — The deletion of stable base VM images directly aligns with the symptoms of build jobs stopping, and past incidents show that configuration errors can lead to similar disruptions.
+   High — This is based on the similarity to past incidents where configuration errors led to critical resource deletions, impacting service availability.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the current state of the","Amazon, CCP Games, CircleCI",10.6878,3,3,4,10,6.37,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is the accidental deletion of stable base VM images used for build jobs, which are critical for provisioning the environments needed to run those jobs.
+   1. Verify the current state of the V","Amazon, CCP Games, CircleCI",10.6878,3,4,5,12,6.88,0,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is the accidental deletion or mismanagement of stable base VM images that are required for the build jobs to run.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is a common issue in CI/CD environments where dependencies on specific VM images can lead to job failures if those images are removed.
+   High — The deletion of stable base VM images directly impacts the ability of build jobs to execute, as these images are typically essential for provisioning the necessary environments.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the build job logs to confirm that the failure is du",3,3,4,10,6.23
+   1. Verify the status of the build jobs and confirm they are in",3,4,4,11,5.96
 9,Duo,database,high,Increased authentication latency and intermittent request timeouts for all customer applications protected by the Duo service.,"Cascading failure due to a request queue overloading the existing, insufficient database capacity.",Flushed the queued requests on each application server to stabilize the platform.,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is network instability affecting the Duo authentication service, similar to past incidents where shared network resources led to increased latency and timeouts.
+   The most probable root cause is an overload or failure in the authentication service (Duo), potentially due to increased load or a bug in an adjacent service affecting its performance.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While there is a pattern of network-related issues causing similar symptoms, the exact cause of the current incident has not been confirmed.
+   **High** — This is based on the similarity to past incidents where authentication services experienced overloads and timeouts due to bugs or dependencies.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the health and performance metrics of the","Square, Pagerduty, Amazon",0.5042,1,2,3,6,5.99,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a configuration issue, potentially related to health check timeouts or an overloaded authentication service due to increased load or a bug in an adjacent service.
+   1. Check Duo service status and performance metric","Square, Heroku, Pagerduty",0.5043,1,2,4,7,5.47,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a configuration issue, potentially related to health check timeouts or service overload, similar to past incidents where low health check timeouts or service dependencies caused latency and timeouts.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While the symptoms align with past incidents, the exact cause may vary, and further investigation is needed to confirm.
+   Medium — While there are patterns indicating configuration issues, the exact cause may vary due to the unique architecture of the Duo service and its dependencies.
 
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the health check configuration for the Duo service and ve","Chef.io, Square, Amazon",22.3991,3,3,4,10,6.98,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a performance degradation or outage in the Duo authentication service, possibly due to increased load, network issues, or service misconfiguration.
+3. **IMMEDIATE ACTIONS (first 15 minutes)**","Chef.io, Square, Amazon",22.3991,3,3,4,10,4.73,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a degradation or outage in the Duo authentication service itself, possibly due to high traffic, service misconfiguration, or an underlying infrastructure issue.
 
 2. **CONFIDENCE LEVEL**  
-   High — Authentication latency and timeouts are commonly linked to issues with the authentication provider, especially under load or during service disruptions.
+   High — This is a common issue when third-party authentication services experience problems, leading to increased latency and timeouts across all applications relying on them.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the Duo service status page for any repor",1,1,3,5,7.85
+   1. Check Duo's status ",1,2,4,7,4.63
 10,Honeycomb,database,critical,"Shepherd hosts were running out of memory (OOM) and restarting, leading to cascading crashes in the Refinery cluster. Engineers observed a persistent, metastable failure loop and OOM errors recurred i","A failure in the Refinery cluster caused Shepherd to accumulate and queue up data, which led to running out of space and being killed.","Engineers slowed rollouts to stabilize the system, implemented aggressive sampling to reduce data in the Refinery cluster, and pinned builds to prevent further deployments.","1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a cascading failure due to a flapping service or a sudden spike in load, leading to a thundering herd effect that overwhelms the memory capacity of the Shepherd hosts and Refinery cluster.
+   The most probable root cause is a memory leak or excessive resource consumption in the Shepherd services, potentially due to unhandled edge cases or a flapping service causing a thundering herd effect, similar to the issues seen in the past incidents.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the observed OOM errors and the similarity to past incidents where service flapping and connection spikes caused memory exhaustion.
+   **Medium** — While there are similarities to past incidents, the exact nature of the memory issue in the current context is not fully confirmed. Further investigation is needed to pinpoint","Discord, Amazon, incident.io",0.5702,3,4,4,11,5.82,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a cascading failure due to a flapping service or excessive reconnections, similar to the first past incident. This could lead to internal queues filling up and causing OOM errors in both Shepherd and Refinery.
+
+2. **CONFIDENCE LEVEL**  
+   High — The symptoms and behavior of the current incident closely match the patterns observed in the past incidents, particularly the first one involving OOM errors and cascading failures.
+
+3. **IMME","Discord, Spotify, Discord",40.8709,3,4,4,11,5.3,0,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a memory leak in the Shepherd or Refinery services, leading to excessive memory consumption and triggering OOM (Out of Memory) errors.
+
+2. **CONFIDENCE LEVEL**  
+   High — Memory leaks are common in long-running services, and the cascading failures suggest that one service's instability is affecting others, which aligns with typical behavior seen in such scenarios.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Identify a","Discord, Discord, Honeycomb",0.5702,3,4,5,12,8.96,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a cascading failure due to a flapping service or a high volume of connections/messages overwhelming the Shepherd and Refinery services, similar to the first past incident where a thundering herd effect caused OOM errors.
-
-2. **CONFIDENCE LEVEL**  
-   High — The symptoms of OOM errors and cascading failures align closely with the patterns observed in past incidents, particularly the first incident which involved a similar service archi","Discord, Spotify, Discord",40.8709,3,4,5,12,8.01,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a memory leak in one or more components of the Shepherd or Refinery services, leading to excessive memory consumption and triggering OOM (Out of Memory) errors.
-
-2. **CONFIDENCE LEVEL**  
-   **High** — Memory leaks are common in long-running services, and the cascading failures suggest that the system is unable to recover due to resource exhaustion.
-
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the current memory usage of",1,3,5,9,8.01
+   1. Check the current",3,4,5,12,5.86
 11,Therac-25,hardware,critical,"Patients received massive overdoses of radiation, resulting in death or serious injury.",Concurrent programming errors in the Therac-25 software.,Not specified,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a software bug in the radiation dosage calculation system, potentially related to arithmetic overflow or incorrect data handling, similar to the issues seen in past incidents.
+   The most probable root cause is a configuration error or incorrect activation of a control mechanism that led to the overdoses of radiation, similar to the incorrect button press in the OWASA incident.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While there is a pattern of software-related issues causing critical failures, the specific context of radiation dosage systems introduces unique variables that may not be fully captured by past incidents.
+   High — The severity and nature of the incident align closely with configuration issues seen in past incidents, particularly in high-stakes environments like healthcare.
 
-3. **IMMEDIATE A","European Space Agency, FirstEnergy / General Electric, TUI",0.3098,3,4,5,12,9.64,"1. **LIKELY ROOT CAUSE**  
+3. **IMMEDIATE ACTIONS (first 15 minutes)**  
+   1. **Stop all radia","OWASA, European Space Agency, Healthcare.gov",0.3301,3,4,5,12,7.06,0,0,"1. **LIKELY ROOT CAUSE**  
    The most probable root cause is a misconfiguration in the radiation delivery system or a failure in the monitoring and alerting mechanisms that led to incorrect dosage being administered.
 
 2. **CONFIDENCE LEVEL**  
-   High — This conclusion is drawn from the severity of the incident and parallels with past incidents where misconfigurations or network issues led to critical failures.
+   High — This is based on the severity of the incident and the historical patterns of configuration errors leading to critical failures in similar systems.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Initiate a full system audit of","Twilio, Google, Cloudflare",7.6512,3,4,5,12,6.88,"1. **LIKELY ROOT CAUSE**  
-   A likely root cause could be a malfunction or misconfiguration of the radiation delivery system, such as a software bug, hardware failure, or incorrect dosage settings.
+   1. Initiate a system-wide review of the radiatio","Twilio, Google, Cloudflare",7.6512,3,3,4,10,4.22,0,0,"1. **LIKELY ROOT CAUSE**
+   The most probable root cause is a malfunction in the radiation delivery system, potentially due to software errors, hardware failures, or incorrect calibration settings.
 
-2. **CONFIDENCE LEVEL**  
-   High — This type of incident is often linked to equipment failure or human error in medical settings, particularly in radiation therapy.
+2. **CONFIDENCE LEVEL**
+   High — This type of incident typically arises from systemic failures in medical equipment or human error in operation or programming.
 
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. **Stop all radiation therapy procedures immediately** to prevent further harm.  
-",3,4,5,12,2.18
+3. **IMMEDIATE ACTIONS (first 15 minutes)**
+   1. Initiate an emergency shutdown of the radiation delivery system to prevent further overdo",3,4,5,12,4.71
 12,Foursquare,database,critical,"The system experienced a catastrophic failure with 17 hours of downtime, and initial outage reports were blaming MongoDB or stating the problem was unknown.",MongoDB fell over under load when it ran out of memory due to a query pattern with low levels of locality and a lack of monitoring on the MongoDB instances.,Not specified,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a database-related issue, likely due to resource contention or a primary database failure, similar to the issues seen in past incidents where database processes became unresponsive or queued writes.
+   The most probable root cause is a database-related issue, likely involving resource contention or locking, similar to the first past incident where the database processes became unresponsive due to queuing writes.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the pattern of previous incidents where database performance issues led to significant service disruptions.
+   High — The symptoms of unresponsive database processes and the nature of the outage align closely with the patterns observed in past incidents, particularly with MongoDB.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check MongoDB logs for a","Epic Games, Gitlab, Roblox",0.5655,3,3,4,10,7.1,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a catastrophic failure of a core dependency, similar to Past Incident #2, which involved a failure in a data center provider affecting critical systems.
+   1. Ch","Epic Games, Reddit, Gitlab",0.5653,3,3,4,10,6.31,0,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a catastrophic failure in a core dependency, similar to the second past incident. This could involve a failure in the underlying infrastructure or a critical service that MongoDB relies on.
 
 2. **CONFIDENCE LEVEL**  
-   High — The pattern of outages due to dependency failures aligns closely with the current situation, especially given the unknown nature of the problem and the blame on MongoDB.
+   Medium — While the symptoms are similar to past incidents, the specific details of the MongoDB setup and dependencies are unknown, making it less certain.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the status of Mongo","Cloudflare, Cloudflare, GitHub",17.7214,1,2,4,7,5.51,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a MongoDB failure, potentially due to resource exhaustion (e.g., memory, disk space, or CPU), a configuration issue, or a network partition that led to a loss of connectivity between application servers and the database.
+   1. Check Mong","Cloudflare, Cloudflare, GitHub",17.7214,1,3,4,8,4.07,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a MongoDB failure, potentially due to resource exhaustion (e.g., memory, disk space) or a configuration issue leading to a replica set failure or primary election problems.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While MongoDB is a common source of issues in systems that rely on it, without specific logs or metrics, it’s difficult to ascertain the exact cause. Other factors could also con",3,3,4,10,5.5
+   Medium — While MongoDB is often a source of issues in production environments, without specific logs or metrics, it is difficult to definitively attribute the downtime to it.
+
+3. **IMMEDIATE ACTIONS (first 15 minutes)**  
+   1. Check t",3,3,4,10,5.01
 13,Keepthescore,database,critical,"Production database was deleted, resulting in the loss of over 300,000 scoreboards and their associated data.",A function intended to delete the local database mistakenly connected to the production database and wiped it.,"The website was taken into maintenance mode, and a backup was restored 30 minutes after the incident.","1. **LIKELY ROOT CAUSE**  
-   Accidental execution of a destructive database command (e.g., DROP or TRUNCATE) against the production database.
+   Accidental deletion of the production database, likely due to a misconfigured command or script.
 
 2. **CONFIDENCE LEVEL**  
-   High — This aligns with the pattern observed in similar past incidents where unintended database commands led to data loss.
+   High — This aligns closely with past incidents where database truncation or deletion occurred due to human error.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. **Stop all write operations** to the production database to prevent further data loss.
-   2. **Notify the incident response team** and escalate the is","TravisCI, Epic Games, Valve",0.4249,3,4,5,12,7.09,"1. **LIKELY ROOT CAUSE**  
-   Accidental execution of a destructive database query (e.g., DROP or TRUNCATE) against the production database.
+   1. Confirm the deletion by checking database logs and error messages.
+   2. Notify the incident response team and escalate the issue to management.
+   3. Initiate the database res","TravisCI, Epic Games, Gitlab",0.4252,3,4,5,12,5.26,0,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is that a database query was accidentally executed against the production database, leading to the deletion of the scoreboards and associated data.
 
 2. **CONFIDENCE LEVEL**  
-   High — This aligns closely with the first past incident where a similar query led to significant data loss.
+   High — This aligns closely with the first past incident where a similar accidental truncation of the database occurred, resulting in significant data loss.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the current state of the production database to confirm the deletion.
-   2. Check for recent database query logs to identify the query that caused the deletion.
-","TravisCI, Amazon, Google",15.7864,3,4,5,12,7.81,"1. **LIKELY ROOT CAUSE**  
-   Human error during a maintenance operation, such as an accidental execution of a destructive command (e.g., `DROP DATABASE` or similar) without proper safeguards.
+   1. Verify the current state of the production database to","TravisCI, Amazon, Google",15.7864,3,4,5,12,5.14,0,1,"1. **LIKELY ROOT CAUSE**  
+   Accidental deletion of the database due to human error, possibly during a maintenance operation or a misconfigured script.
 
 2. **CONFIDENCE LEVEL**  
-   High — Human errors are common in database management, especially during maintenance or updates, and the nature of the incident suggests a lack of safeguards or oversight.
+   High — Human error is a common cause of critical data loss incidents, especially in production environments where operations are frequently performed.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Verify the incident: Confirm that the database is in",3,4,5,12,8.02
+   1. Verify the deletion by checking database logs and confirming the absence of the database.
+   2. Notify the on-cal",3,4,5,12,4.42
 14,Bungie,configuration,high,"A small percentage of players lost currency and materials, leading to player account rollbacks.",A game bug involving inventory management and server misconfigurations that re-introduced the bug after it was fixed.,Accounts were rolled back to the state they were in before the launch of Hotfix 2.7.1.1.,"1. **LIKELY ROOT CAUSE**  
-   Database inconsistency or corruption leading to incorrect player account states, possibly due to a faulty database operation or a bug in the currency/material handling logic.
+   A database operation may have inadvertently modified player account data, leading to currency and material loss. This aligns with past incidents where database truncation or erroneous queries caused significant data integrity issues.
 
 2. **CONFIDENCE LEVEL**  
-   High — This aligns with past incidents where database issues led to user data corruption and loss.
+   High — The similarity to past incidents involving database issues and account rollbacks supports this assessment.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check database logs for any recent operations that could have affected player accounts or currency/materials.
-   ","TravisCI, Square, Knight Capital",0.4028,3,4,5,12,6.83,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a bug in the currency and materials handling logic, potentially related to a caching mechanism or a race condition affecting player account states, similar to the corruption in queues seen in the past incident with Redis.
+   1. Check the database logs for recent quer","Parity, TravisCI, Square",0.446,3,4,5,12,5.59,0,0,"1. **LIKELY ROOT CAUSE**  
+   A bug in the currency and materials handling logic, potentially related to a caching mechanism or a race condition that could lead to inconsistent state across player accounts.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — while the symptoms align with issues seen in past incidents, the exact mechanism of currency loss and rollbacks is not definitively established.
-
-3. **IMMEDIATE ACTIONS (first 1","OpenAI, Gentoo, CCP Games",13.9601,3,4,5,12,8.62,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a bug in the currency or inventory management system, possibly related to a recent deployment or a race condition during transactions that led to inconsistent state updates.
-
-2. **CONFIDENCE LEVEL**  
-   Medium — While currency loss and rollbacks are often due to bugs, the exact cause can vary widely. Without historical data or logs, it's difficult to pinpoint the issue definitively.
+   Medium — While the symptoms align with issues seen in past incidents, the exact cause may differ due to the unique nature of currency and material management in the game.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1",3,4,4,11,7.81
+   1. Check logs for any recent changes to th","OpenAI, Gentoo, CCP Games",13.9601,3,4,5,12,5.15,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a bug in the currency or inventory management system, possibly related to a recent deployment or a database transaction issue that led to incorrect state management for player accounts.
+
+2. **CONFIDENCE LEVEL**  
+   Medium — This is based on common issues seen in similar systems, but without historical data or logs, it’s difficult to pinpoint the exact cause.
+
+3. **IMMEDIATE ACTIONS (first 15 minutes)**  
+   1. Check the deployment lo",3,4,4,11,5.66
 15,Sun,hardware,high,"High-end servers made by Sun Microsystems suddenly crashed, affecting major corporate accounts like America Online and Ebay.",An odd problem involving stray cosmic rays and memory chips in the flagship Enterprise server line.,"Sun will make repairs on a one-to-one basis with customers who have had a problem, but will not fix all sold servers.","1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a critical failure in server communication or a system overload, similar to the message corruption seen in the Amazon S3 incident.
+   A configuration error or command typo that led to the unintended shutdown of critical servers, similar to past incidents where misconfigurations caused service outages.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While the symptoms align with past incidents, the specific hardware (Sun Microsystems servers) introduces uncertainty regarding the exact failure mechanism.
+   High — The similarity in symptoms and past incidents indicates a strong likelihood of a configuration-related issue.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Gather logs from the affected servers to identify any erro","Amazon, Square, AppNexus",0.4562,1,3,4,8,6.81,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a configuration issue, potentially related to system resource limits or health checks, which could lead to server crashes under load.
+   1. Check server logs for error messages or warnings leading up to the crash.  
+   2. Verify the current ","Allegro, Amazon, Etsy",0.4771,1,2,4,7,7.21,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a configuration issue, potentially related to system resource management or a recent change that may have led to instability in the server environment.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While the symptoms align with past incidents, the specific hardware (Sun Microsystems servers) introduces variables that may not be fully covered by the past incidents.
+   Medium — While the symptoms of server crashes align with configuration issues seen in past incidents, the specific hardware (Sun Microsystems servers) and the nature of the crash introduce uncertainty.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check server logs for error messages or cra","Buildkite, Chef.io, Google",8.2615,1,2,4,7,7.83,"1. **LIKELY ROOT CAUSE**  
-   Hardware failure, possibly due to overheating, power supply issues, or a critical firmware bug affecting the Sun Microsystems servers.
+   1. C","Buildkite, Chef.io, Google",8.2615,1,2,4,7,5.76,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a hardware failure, potentially due to overheating, power supply issues, or a firmware bug affecting the Sun Microsystems servers.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While hardware failures are common, the specific cause can vary widely. Without historical data, it's difficult to pinpoint the exact issue.
+   Medium — While hardware failures are common, the specific cause can vary widely and may require further investigation to confirm.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check server logs for error messages or warnings leading up to the crash.
-   2. Verify power supply st",1,3,4,8,4.22
+   1. Check the server console for any error messages or logs indicating the cause of the crash.  
+ ",1,2,4,7,6.48
 16,Cloudflare,deployment,critical,Customers experienced 502 error pages when visiting any Cloudflare domain.,"A poorly written regular expression in a WAF rule caused excessive backtracking, leading to CPU exhaustion.",The problematic WAF rule was identified and removed to restore normal service.,"1. **LIKELY ROOT CAUSE**  
-   A configuration issue, possibly related to a recent deployment or change in routing rules affecting Cloudflare's edge servers.
+   A configuration issue, potentially similar to the bad router rule in Past Incident #3, which could be causing edge servers to fail and return 502 errors.
 
 2. **CONFIDENCE LEVEL**  
-   High — Similar past incidents indicate that configuration errors have previously caused widespread service disruptions.
+   High — The pattern of 502 errors suggests a misconfiguration or routing issue, consistent with past incidents where configuration errors led to widespread service failures.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the status of Cloudflare's edge servers and any recent configuration changes or deployments.
-   2. Review logs for any error messages ","Cloudflare, Cloudflare, Cloudflare",0.5405,1,2,3,6,5.68,"1. **LIKELY ROOT CAUSE**  
-   A bad configuration (similar to past incidents) likely caused the 502 errors across Cloudflare domains, possibly related to edge router rules or load balancer settings.
+   1. Check the status of Cloudflare's edge servers and any recent","Cloudflare, Cloudflare, Cloudflare",0.5407,1,2,3,6,5.78,1,1,"1. **LIKELY ROOT CAUSE**  
+   A bad configuration (e.g., router rule or load balancer misconfiguration) likely caused the 502 errors across Cloudflare domains.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the historical patterns of configuration issues leading to widespread outages in similar scenarios.
+   High — This is based on the similarity to past incidents where configuration issues led to widespread service outages and 502 errors.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the status of Cloudflare's edge routers and load balancers for any reported issues or mi","Cloudflare, Cloudflare, Google",8.7793,1,2,3,6,3.5,"1. **LIKELY ROOT CAUSE**  
+   1. Check the status of Cloudflare's edge routers and load balancers for any reported issues or misconfigurations.
+   2. Review","Cloudflare, Cloudflare, Google",8.7793,1,2,3,6,4.84,1,0,"1. **LIKELY ROOT CAUSE**  
    The most probable root cause is a misconfiguration or outage in the upstream server(s) that Cloudflare is trying to connect to, resulting in 502 Bad Gateway errors.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is a common issue when upstream servers are down or misconfigured, leading to Cloudflare being unable to retrieve content.
+   High — This is a common cause of 502 errors, especially in scenarios involving reverse proxies like Cloudflare, where the upstream server is unreachable or misconfigured.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check Cloudflare's status page for any ongoing incidents or maintenance that could affe",1,1,3,5,5.0
+   1. Check Cloudflare's status page for any ongoing inci",1,1,3,5,9.85
 17,CrowdStrike,deployment,critical,Out-of-bounds memory read caused Windows operating system crashes (BSOD) on 8.5 million machines.,A bug in the Content Validator during the deployment stage led to undetected errors in the content update.,The problematic content update was reverted within 78 minutes.,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a bug in the memory management or buffer handling within the Windows operating system, leading to out-of-bounds memory reads that trigger system crashes (BSOD).
+   The most probable root cause is a bug in the code that handles memory management, leading to an out-of-bounds memory read. This is similar to the race hazard introduced in the AT&T incident.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the clear symptoms of system crashes and the nature of similar incidents involving memory management issues.
+   High — The pattern of memory-related issues causing system crashes aligns closely with the symptoms observed in this incident and the past incidents.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Gather logs from affected machines to identify patterns or co","Stack Exchange, Cloudflare, Intel",0.3939,3,4,5,12,4.93,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a bug in the memory management of the operating system or a specific application, leading to out-of-bounds memory reads that trigger BSODs. This aligns with the pattern of memory-related issues seen in past incidents.
+   1. Gather logs from affected machines to identify","AT&T, Amazon, Stack Exchange",0.4272,3,4,4,11,6.13,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a bug in the memory management of the application, leading to out-of-bounds memory access, similar to the parser bug in the Cloudflare incident.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the clear symptoms of crashes due to memory issues, which have been observed in similar incidents.
+   High — This is based on the clear symptoms of memory-related crashes and the historical precedence of similar issues causing significant operational failures.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Gather logs fr","Discord, Cloudflare, Amazon",8.991,3,4,4,11,5.75,"1. **LIKELY ROOT CAUSE**  
-   A likely root cause is a bug in a driver or system-level software that improperly accesses memory, leading to out-of-bounds reads. This could be due to a recent update or a compatibility issue with specific hardware configurations.
+   1. Gather logs from affected machines to identify patt","Discord, Cloudflare, Amazon",8.991,3,4,4,11,4.24,0,0,"1. **LIKELY ROOT CAUSE**  
+   A likely root cause is a bug in a driver or system-level software that improperly handles memory allocation or access, leading to out-of-bounds reads.
 
 2. **CONFIDENCE LEVEL**  
-   High — Out-of-bounds memory access is a common cause of BSODs, particularly in environments with diverse hardware and software configurations.
+   High — Out-of-bounds memory access is a common issue in low-level programming, especially with drivers, and can lead to system crashes.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Gather logs ",3,4,4,11,5.97
+   1. Gather logs from affected machines to identify patterns or commonalities in the crashes.
+   2. Check",3,4,4,11,4.02
 18,Amazon,hardware,high,"Loss of power to a significant number of EC2 instances and their associated EBS volumes in an Availability Zone, resulting in service disruption.","A loss of power at a regional substation due to severe weather caused an unusually long voltage sag, leading to failure of power isolation breakers and subsequent draining of backup energy reserves.","Power was manually re-engaged by on-site technicians, and automated systems restored power to the affected infrastructure.","1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a failure in the power supply infrastructure, potentially related to backup generator instability or failure, similar to past incidents involving power outages.
+   Power failure affecting multiple EC2 instances and EBS volumes in the Availability Zone, likely due to hardware issues (e.g., transformer failure or backup generator malfunction).
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the similarity to past incidents involving power failures and the direct impact on EC2 instances and EBS volumes.
+   High — This aligns with past incidents where hardware failures led to similar outages, particularly the transformer and generator issues.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Confirm the status of the affected EC2 instances and EBS","Amazon, Amazon, Amazon",0.6484,3,4,5,12,6.2,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a disruption in power at the data center, similar to the GitHub incident, which caused a significant number of EC2 instances and EBS volumes to lose power and become unresponsive.
+   1. Confirm the power status of the affected Availability Zone via the AW","Amazon, Netflix, Amazon",0.6556,3,3,4,10,6.27,1,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a disruption in power supply to the affected Availability Zone, similar to the incident experienced by GitHub.
 
 2. **CONFIDENCE LEVEL**  
-   High — This incident closely mirrors the symptoms and root causes observed in past incidents related to power disruptions.
+   High — The symptoms of power loss leading to instance and volume unavailability align closely with the GitHub incident, which had a similar cause.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the AWS Service Health Dashboard for any repor","Amazon, GitHub, European Space Agency",37.9201,3,4,5,12,6.47,"1. **LIKELY ROOT CAUSE**  
-   Power outage or failure in the underlying infrastructure of the affected Availability Zone, possibly due to a utility issue, equipment failure, or maintenance activity.
+   1. Check the AWS Service Health Dashboard for any reported outages in the affected Availability Zone","Amazon, GitHub, European Space Agency",37.9201,3,3,4,10,5.75,1,1,"1. **LIKELY ROOT CAUSE**  
+   A power outage or failure in the underlying infrastructure of the affected Availability Zone (AZ) is the most probable root cause. This could be due to a utility power failure, equipment malfunction, or maintenance activities.
 
 2. **CONFIDENCE LEVEL**  
-   High — Power loss in an Availability Zone typically indicates a significant infrastructure issue, which is a common cause for widespread instance and volume outages.
+   High — Power outages in an AZ are a known risk and can lead to widespread service disruption, especially if multiple EC2 instances and EBS volumes are affected.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Confirm the outage by checking the AWS Service Healt",3,4,5,12,6.88
+   1.",3,4,4,11,6.57
 19,Yeller,networking,high,"Processing delays on 42 exceptions, with some delays up to 7 hours. Customers could not sign up for new accounts, change passwords, reset passwords, change billing, or invite users to projects.",Network partitions in the cluster caused by maintenance at the datacenter.,"A rolling restart of the cluster was performed, which resolved the network partition.","1. **LIKELY ROOT CAUSE**  
-   Database capacity issues or service overload due to increased demand or misconfiguration, similar to past incidents where database downgrades or service malfunctions caused critical failures.
+   The most probable root cause is a capacity issue in the database or backend service that handles user account operations, similar to the Buildkite incident where a capacity downgrade led to processing delays.
 
 2. **CONFIDENCE LEVEL**  
-   High — The symptoms align closely with past incidents involving database capacity and service overloads, which directly impacted user authentication and account management functionalities.
+   High — This is based on the similarity of symptoms and the nature of the operations affected (user account management), which often relies heavily on database performance.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check ","Buildkite, Google, Square",0.4751,1,2,4,7,5.52,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a configuration issue in the request routing, similar to the first past incident. There may be a misconfiguration in the backend routing that is causing requests to be directed incorrectly, leading to processing delays.
+   1. Check ","Heroku, Atlassian, Buildkite",0.4921,1,3,4,8,7.27,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a configuration issue in the request routing or backend processing, similar to the first past incident where requests were incorrectly directed to a backend that could not handle them.
 
 2. **CONFIDENCE LEVEL**  
-   High — This is based on the similarity of symptoms to past incidents involving configuration errors that led to request handling issues.
+   High — This is based on the observed symptoms of processing delays and the inability to perform critical user actions, which align with configuration-related issues in past incidents.
 
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1","NPM, Cloudflare, OpenAI",16.854,1,3,4,8,4.63,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a bottleneck in the authentication or user management service, likely due to high load, resource exhaustion (CPU, memory, or I/O), or a database lock that is preventing the processing of user-related requests.
+3. **IMMEDIATE ACTIONS (first 15 minut","NPM, Cloudflare, OpenAI",16.854,1,3,4,8,7.19,0,0,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a bottleneck in the authentication or user management service, possibly due to a database lock, resource exhaustion, or a misconfiguration that is preventing timely processing of user-related requests.
 
 2. **CONFIDENCE LEVEL**  
-   High — This type of incident is common in systems handling user account management, especially during peak usage times or following a deployment.
+   High — This type of incident typically arises from issues in user management systems, especially when multiple user actions depend on the same backend processes.
 
-3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1.",1,1,3,5,5.83
+3. **IMMEDIATE ACTIONS (first 15 minutes)**",1,1,3,5,6.86
 20,Firefox,networking,critical,"Firefox became unusable for close to two hours, with a spike in crashes reported and user complaints about the browser hanging.","A change by Google Cloud Platform made HTTP/3 the default protocol, which triggered a bug in Firefox's network stack.",HTTP/3 was explicitly disabled on GCP at 09:12 UTC.,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a recent deployment or feature enabling that has led to increased resource consumption (CPU, memory, or network) resulting in browser crashes and hangs, similar to the heavy load issues seen in past incidents.
+   The most probable root cause is a certificate issue, similar to Past Incident #1, where an expired certificate caused functionality loss. This could lead to crashes and hangs if Firefox is unable to validate secure connections.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While the symptoms align with past incidents, the exact nature of the deployment or feature causing the issue is still unclear.
+   High — The symptoms of crashes and hangs align closely with the impact of certificate issues, as seen in the past incident.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check th","Stack Exchange, Cloudflare, Roblox",0.3737,1,3,4,8,7.7,"1. **LIKELY ROOT CAUSE**  
-   The most probable root cause is a bug or configuration issue in the browser's handling of memory or resources, leading to crashes and hangs, similar to the dependency issues seen in past incidents.
+   1. Check the Firefox error logs for an","Mozilla, Flowdock, Google",0.5408,1,2,3,6,4.88,0,1,"1. **LIKELY ROOT CAUSE**  
+   The most probable root cause is a bug in a dependency or a configuration issue that is causing Firefox to hang and crash, similar to the issues seen in the past incidents.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — while there is a pattern of bugs causing issues in similar incidents, the specific cause of Firefox's problems may differ due to its unique architecture and dependencies.
+   Medium — While there are similarities in symptoms to past incidents, the exact cause of the Firefox issue is not clear without further investigation.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the","Valve, OpenAI, WebKit code repository",16.9079,1,3,4,8,4.93,"1. **LIKELY ROOT CAUSE**  
-   A recent update or change in the browser's rendering engine or a third-party plugin may have introduced a memory leak or performance regression, leading to crashes and hangs.
+   1. Check the crash logs for Firefox to identify any common error mes","Valve, OpenAI, WebKit code repository",16.9079,2,3,4,9,5.84,0,0,"1. **LIKELY ROOT CAUSE**  
+   A recent update or change in the browser's codebase may have introduced a memory leak or a performance regression, leading to increased crashes and hanging behavior.
 
 2. **CONFIDENCE LEVEL**  
-   Medium — While this is a common issue in browsers, without specific logs or data, it's difficult to pinpoint the exact cause.
+   Medium — While recent updates are a common cause of such issues, without specific logs or historical data, it's difficult to pinpoint the exact cause.
 
 3. **IMMEDIATE ACTIONS (first 15 minutes)**  
-   1. Check the crash reports and logs for any error messages or patterns.
-   2. Verify if t",1,3,4,8,5.04
+   1. Check the crash reports and logs for any common patterns or error mess",1,3,4,8,5.57

@@ -32,7 +32,7 @@ def query_rag(incident_description, top_k=3):
     3. Send to GPT for structured response
     """
     # Step 1 — Retrieve
-    matches = retrieve(incident_description, top_k=top_k)
+    matches = retrieve_with_reranking(incident_description, top_k=top_k)
 
     # Step 2 — Build context
     context = build_context(matches)
